@@ -145,7 +145,7 @@ Token getIdentifier() {
                 break;
         }
     }
-    --count;
+    count--;
     ungetc(c, stdin);
     text[count++] = '\0';
     /////////////////////////////////////////////////
@@ -194,7 +194,7 @@ Token getInteger() {
                 break;
         }
     }
-    --count;
+    count--;
     ungetc(c, stdin);
     text[count++] = '\0';
     /////////////////////////////////////////////////
@@ -213,9 +213,9 @@ Token getReal() {
         switch (state) {
             case 0:
                 if ('0' <= c && c <= '9') {
-                    state = 0;
-                } else if (c == '.') {
                     state = 1;
+                } else if (c == '.') {
+                    state = 2;
                 } else {
                     rollback(text, count);
                     return failToken;
@@ -224,13 +224,32 @@ Token getReal() {
             case 1:
                 if ('0' <= c && c <= '9') {
                     state = 1;
+                } else if (c == '.') {
+                    state = 3;
+                } else {
+                    rollback(text, count);
+                    return failToken;
+                }
+                break;
+
+            case 2:
+                if ('0' <= c && c <= '9') {
+                    state = 3;
+                } else {
+                    rollback(text, count);
+                    return failToken;
+                }
+                break;
+            case 3:
+                if ('0' <= c && c <= '9') {
+                    state = 3;
                 } else {
                     state = -1;
                 }
                 break;
         }
     }
-    --count;
+    count--;
     ungetc(c, stdin);
     text[count++] = '\0';
     /////////////////////////////////////////////////
@@ -297,7 +316,7 @@ Token getString() {
                 break;
         }
     }
-    // --count;
+    // count--;
     // ungetc(c, stdin);
     text[count++] = '\0';
     lineNum += lineChange;
