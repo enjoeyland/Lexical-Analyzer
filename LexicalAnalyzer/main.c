@@ -194,9 +194,9 @@ Token getInteger() {
                 break;
         }
     }
-    text[count++] = '\0';
     count--;
     ungetc(c, stdin);
+    text[count++] = '\0';
     /////////////////////////////////////////////////
     int i = atoi(text);
     return (Token){INT, i, V_INT};
@@ -249,9 +249,9 @@ Token getReal() {
                 break;
         }
     }
-    text[count++] = '\0';
     count--;
     ungetc(c, stdin);
+    text[count++] = '\0';
     /////////////////////////////////////////////////
     char* eptr;
     double d = strtod(text, &eptr);
@@ -316,10 +316,10 @@ Token getString() {
                 break;
         }
     }
-    text[count++] = '\0';
-    lineNum += lineChange;
     // count--;
     // ungetc(c, stdin);
+    text[count++] = '\0';
+    lineNum += lineChange;
     /////////////////////////////////////////////////
 
     int index = getStringIdex(text);
