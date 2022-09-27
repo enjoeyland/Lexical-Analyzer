@@ -5,7 +5,7 @@ result = str:0-2 + "-" + str:3-1;
 "hello \
 world"
 result = result + "relationship";
-12.212 01.
+12.212 01. .05
 "hello \
 
 world"

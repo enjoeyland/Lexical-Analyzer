@@ -1,0 +1,33 @@
+10 + 5 * 3
+10.5 / 5
+a = 10
+a - 5
+"hello"+"world"
+"hello"+ 5
+"hello" * 2
+b = "hello" + a
+b:2-3
+
+start = 5;
+len = 4;
+str = "this is a string":start-len;
+result = str:0-2 + "-" + str:3-1;
+result = result + "relationship";
+
+start len = 1 = 4
+
+-10
+a--1
+00123
+
+123.123 0.5 .123 123. 0000.
+
+a123456789 == a1234567890
+
+123abc
+a123bc
+
+abc""abc
+"\n \\ \" \t &%'| "
+"hello \
+world"

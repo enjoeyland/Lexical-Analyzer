@@ -44,7 +44,7 @@ int isFailToken(Token t) {
     return isEqual(t, failToken);
 }
 
-void rollback(char* history, int len) {  // string
+void rollback(char* history, int len) {
     for (int i = len - 1; i >= 0; i--) {
         ungetc(history[i], stdin);
     }
@@ -194,9 +194,9 @@ Token getInteger() {
                 break;
         }
     }
+    text[count++] = '\0';
     count--;
     ungetc(c, stdin);
-    text[count++] = '\0';
     /////////////////////////////////////////////////
     int i = atoi(text);
     return (Token){INT, i, V_INT};
@@ -249,9 +249,9 @@ Token getReal() {
                 break;
         }
     }
+    text[count++] = '\0';
     count--;
     ungetc(c, stdin);
-    text[count++] = '\0';
     /////////////////////////////////////////////////
     char* eptr;
     double d = strtod(text, &eptr);
@@ -316,10 +316,10 @@ Token getString() {
                 break;
         }
     }
-    // count--;
-    // ungetc(c, stdin);
     text[count++] = '\0';
     lineNum += lineChange;
+    // count--;
+    // ungetc(c, stdin);
     /////////////////////////////////////////////////
 
     int index = getStringIdex(text);
@@ -349,7 +349,9 @@ Token getNextToken() {
         return token;
     }
     char failChar = getchar();
-    printf("Error: line %d\t\t%c\n", lineNum, failChar);
+    if (failChar != EOF) {
+        printf("Error: line %d\t\t%c\n", lineNum, failChar);
+    }
     return failToken;
 }
 

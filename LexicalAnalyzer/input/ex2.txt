@@ -1,0 +1,12 @@
+&()%#@<
+
+abc%def
+1 . 2
+
+"hello\
+
+world"
+"hello\\\"
+
+"
+world\"hello world"
