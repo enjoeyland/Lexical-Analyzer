@@ -49,6 +49,11 @@ void rollback(char* history, int len) {
         ungetc(history[i], stdin);
     }
 }
+
+int isTokenSeparator(char c) {  // operation or space or new line or EoF
+    return c == '+' || c == '-' || c == '*' || c == '/' || c == '=' || c == ':' || c == ';' || c == ' ' || c == '\n' || c == EOF;
+}
+
 int lineNum = 1;
 void skipSpace() {
     while (1) {
@@ -132,15 +137,21 @@ Token getIdentifier() {
                     state = 1;
                 } else if ('0' <= c && c <= '9') {
                     state = 2;
-                } else {
+                } else if (isTokenSeparator(c)) {
                     state = -1;
+                } else {
+                    rollback(text, count);
+                    return failToken;
                 }
                 break;
             case 2:
                 if ('0' <= c && c <= '9') {
                     state = 2;
-                } else {
+                } else if (isTokenSeparator(c)) {
                     state = -1;
+                } else {
+                    rollback(text, count);
+                    return failToken;
                 }
                 break;
         }
@@ -185,12 +196,20 @@ Token getInteger() {
             case 1:
                 if ('0' <= c && c <= '9') {
                     state = 1;
-                } else {
+                } else if (isTokenSeparator(c)) {
                     state = -1;
+                } else {
+                    rollback(text, count);
+                    return failToken;
                 }
                 break;
             case 2:
-                state = -1;
+                if (isTokenSeparator(c)) {
+                    state = -1;
+                } else {
+                    rollback(text, count);
+                    return failToken;
+                }
                 break;
         }
     }
@@ -243,8 +262,11 @@ Token getReal() {
             case 3:
                 if ('0' <= c && c <= '9') {
                     state = 3;
-                } else {
+                } else if (isTokenSeparator(c)) {
                     state = -1;
+                } else {
+                    rollback(text, count);
+                    return failToken;
                 }
                 break;
         }
@@ -300,10 +322,10 @@ Token getString() {
                 if (c == '\n') {
                     rollback(text, count);
                     return failToken;
-                } else if (c == '"') {
-                    state = -1;
                 } else if (c == '\\') {
                     state = 2;
+                } else if (c == '"') {
+                    state = 3;
                 } else {
                     state = 1;
                 }
@@ -314,10 +336,17 @@ Token getString() {
                 }
                 state = 1;
                 break;
+            case 3:
+                if (isTokenSeparator(c)) {
+                    state = -1;
+                } else {
+                    rollback(text, count);
+                    return failToken;
+                }
         }
     }
-    // count--;
-    // ungetc(c, stdin);
+    count--;
+    ungetc(c, stdin);
     text[count++] = '\0';
     lineNum += lineChange;
     /////////////////////////////////////////////////
