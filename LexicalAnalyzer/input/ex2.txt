@@ -1,12 +1,19 @@
 &()%#@<
 
-abc%def
+4%4     4 % 4
+a%b     a %b
+
 1 . 2
+22.22.22
 
-"hello\
+00123   0 0 123
+1abc  1 abc
+a1bc  a1 bc
+"a""bc"
+a"b"
 
-world"
-"hello\\\"
+"a\
 
-"
-world\"hello world"
+b"
+"a\\\"
+\""
